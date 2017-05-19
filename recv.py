@@ -2,7 +2,8 @@ import pika
 import bcrypt
 import json
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+cred = pika.PlainCredentials('admin','admin');
+connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost',credentials=cred))
 channel = connection.channel()
 
 channel.queue_declare(queue='jobs')

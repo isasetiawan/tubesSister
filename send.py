@@ -7,7 +7,6 @@ from string import ascii_lowercase
 # membangkitkan kombinasi karakter
 keywords = [''.join(i) for i in product(ascii_lowercase, repeat=4)]
 # membuat koneksi ke queue
-cred = pika.PlainCredentials('admin','admin');
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',credentials=cred))
 channel = connection.channel()
 # membuat queue job
