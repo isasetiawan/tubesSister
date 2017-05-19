@@ -28,7 +28,7 @@ def sendresult(result):
     channel.basic_publish(exchange='', routing_key='result', body=result)
 
 
-channel.basic_consume(callback, no_ack=True, queue='hello')
+channel.basic_consume(callback, no_ack=True, queue='jobs')
 
 print(' [*] Waiting for messages. To exit press CTRL+C')
 channel.start_consuming()

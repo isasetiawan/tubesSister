@@ -7,7 +7,8 @@ from string import ascii_lowercase
 # membangkitkan kombinasi karakter
 keywords = [''.join(i) for i in product(ascii_lowercase, repeat=4)]
 # membuat koneksi ke queue
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+cred = pika.PlainCredentials('admin','admin');
+connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',credentials=cred))
 channel = connection.channel()
 # membuat queue job
 channel.queue_declare(queue='jobs')
@@ -28,7 +29,7 @@ for i in range(0, len(keywords), njobs):
         'input_sequences': keywords[a:b],
     }
     ready_to_send = json.dumps(message)
-    channel.basic_publish(exchange='', routing_key='hello', body=ready_to_send)
+    channel.basic_publish(exchange='', routing_key='jobs', body=ready_to_send)
 
     print(" [x] Sent " + ready_to_send)
 
@@ -44,6 +45,4 @@ channel.queue_declare(queue='result')
 channel.basic_consume(callback, no_ack=True, queue='result')
 
 channel.start_consuming()
-
-
 # connection.close()
